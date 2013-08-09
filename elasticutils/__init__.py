@@ -3,7 +3,13 @@ import logging
 from datetime import datetime
 from operator import itemgetter
 
-from pyelasticsearch import ElasticSearch
+try:
+    from pyelasticsearch import ElasticSearch
+except ImportError:
+    try:
+        from pyeasadapter import PyesElasticSearchAdapter as ElasticSearch
+    except ImportError:
+        raise ImportError('You should have pyes or pyelasticsearch installed.')
 
 from elasticutils._version import __version__  # noqa
 
@@ -11,7 +17,7 @@ from elasticutils._version import __version__  # noqa
 log = logging.getLogger('elasticutils')
 
 
-DEFAULT_URLS = ['http://localhost:9200']
+DEFAULT_URLS = ['http://mediante.local:9200']
 DEFAULT_DOCTYPES = None
 DEFAULT_INDEXES = None
 DEFAULT_TIMEOUT = 5
